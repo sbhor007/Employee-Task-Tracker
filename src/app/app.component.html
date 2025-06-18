@@ -1,0 +1,61 @@
+<div class="container">
+  <h1>Employee Task</h1>
+
+  <form (ngSubmit)="submitForm()" #taskForm="ngForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" [(ngModel)]="employee.name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="task">Task Title</label>
+      <input type="text" name="task" id="task" [(ngModel)]="employee.task" required>
+    </div>
+
+    <div class="form-group">
+      <label for="priority">Priority</label>
+      <select name="priority" id="priority" [(ngModel)]="employee.priority" required>
+        <option value="">-- Select Priority --</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="dueDate">Due Date</label>
+      <input type="date" name="dueDate" id="dueDate" [(ngModel)]="employee.date" required>
+      <div class="error" *ngIf="dateError">Due date cannot be in the past.</div>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div *ngIf="tasks.length > 0; else noTasks">
+    <h2>Assigned Tasks</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Employee Name</th>
+          <th>Task Title</th>
+          <th>Priority</th>
+          <th>Due Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks; let i = index">
+          <td>{{ task.name }}</td>
+          <td [ngStyle]="getFontStyle(task.priority)">{{ task.task }}</td>
+          <td [ngClass]="getPriorityClass(task.priority)">{{ task.priority | titlecase }}</td>
+          <td>{{ task.date }}</td>
+          <td><button (click)="removeTask(i)">Complete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noTasks>
+    <p>No tasks assigned yet.</p>
+  </ng-template>
+</div>
