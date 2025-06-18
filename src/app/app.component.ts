@@ -36,7 +36,7 @@ export class AppComponent {
     }
 
     this.dateError = false;
-    this.tasks.push({ ...this.employee });
+    this.tasks.push(this.employee );
     this.employee = { name: '', task: '', priority: '', date: '' };
   }
 
